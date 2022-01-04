@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController" customModule="Chat_Library" customModuleProvider="target">
+            <connections>
+                <outlet property="sendButton" destination="7ir-gl-nOu" id="g7t-Re-tH3"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ZQc-t5-DMb">
+                    <rect key="frame" x="8" y="808" width="398" height="46"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gF1-on-1rD">
+                            <rect key="frame" x="0.0" y="0.0" width="306" height="46"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lhf-Zs-mjF">
+                            <rect key="frame" x="306" y="0.0" width="46" height="46"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="46" id="s5Y-qL-LE6"/>
+                                <constraint firstAttribute="width" constant="46" id="wL2-aC-ivS"/>
+                            </constraints>
+                            <color key="tintColor" red="0.95294117647058818" green="0.42745098039215684" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" image="image_black_24pt"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ir-gl-nOu">
+                            <rect key="frame" x="352" y="0.0" width="46" height="46"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="46" id="7Lw-Vv-vp8"/>
+                                <constraint firstAttribute="width" constant="46" id="M6l-53-xN5"/>
+                            </constraints>
+                            <state key="normal" image="vector"/>
+                        </button>
+                    </subviews>
+                </stackView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hg5-VQ-GlX">
+                    <rect key="frame" x="8" y="44" width="398" height="764"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="hg5-VQ-GlX" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="4Qw-mo-uib"/>
+                <constraint firstItem="hg5-VQ-GlX" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="5fi-Af-LDa"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="ZQc-t5-DMb" secondAttribute="bottom" constant="8" id="66z-UO-bjr"/>
+                <constraint firstItem="ZQc-t5-DMb" firstAttribute="top" secondItem="hg5-VQ-GlX" secondAttribute="bottom" id="GOk-BT-O3D"/>
+                <constraint firstItem="ZQc-t5-DMb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="8" id="bhv-YM-knQ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hg5-VQ-GlX" secondAttribute="trailing" constant="8" id="hld-F3-TDz"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ZQc-t5-DMb" secondAttribute="trailing" constant="8" id="mNb-eU-0f3"/>
+            </constraints>
+            <point key="canvasLocation" x="-78" y="103"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="image_black_24pt" width="24" height="24"/>
+        <image name="vector" width="20.5" height="20"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
