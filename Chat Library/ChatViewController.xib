@@ -10,6 +10,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController" customModule="Chat_Library" customModuleProvider="target">
             <connections>
+                <outlet property="imageButton" destination="Lhf-Zs-mjF" id="4SC-WY-53O"/>
+                <outlet property="messageTextField" destination="gF1-on-1rD" id="UG6-1m-ke1"/>
+                <outlet property="messagesTableView" destination="hg5-VQ-GlX" id="i6R-e7-K1d"/>
                 <outlet property="sendButton" destination="7ir-gl-nOu" id="g7t-Re-tH3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -49,6 +52,10 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hg5-VQ-GlX">
                     <rect key="frame" x="8" y="44" width="398" height="764"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="wo6-0V-vU4"/>
+                        <outlet property="delegate" destination="-1" id="WE0-DC-dEP"/>
+                    </connections>
                 </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

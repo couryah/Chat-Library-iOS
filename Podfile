@@ -6,5 +6,8 @@ target 'Chat Library' do
   use_frameworks!
 
   # Pods for Chat Library
+pod 'Firebase/Auth'
+pod 'Firebase/Firestore'
+pod 'Firebase/Storage'
 
 end

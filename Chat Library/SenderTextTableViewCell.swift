@@ -24,4 +24,7 @@ class SenderTextTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    static func getIdentifier() -> String {
+        return "SenderTextTableViewCell"
+    }
 }
