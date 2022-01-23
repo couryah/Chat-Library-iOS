@@ -14,12 +14,19 @@ class FirebaseRepository {
     private let storage = Storage.storage().reference()
 
     func getMessages(roomId: String, onFinish: @escaping ([ChatModel]?, String?) -> Void) {
-        firestore.collection(ChatMessagesKey).document(roomId).addSnapshotListener { (snapShot, error) in
-            if (snapShot != nil && ((snapShot?.exists) != nil)) {
-                let data = snapShot!.data()![ChatMessagesKey]! as! [NSDictionary]
+        firestore.collection(ChatMessagesKey).document(REPLACEMENT_CHAT).collection(roomId).addSnapshotListener { (snapShot, error) in
+            if (snapShot != nil) {
                 var messages = [ChatModel]()
-                for message in data {
-                    let chatModel = ChatModel(dictionary: message as! Dictionary<String, Any>)
+                for message in snapShot!.documents {
+                    let chatModel = ChatModel()
+                    chatModel.messageId = message.documentID
+                    chatModel.senderId = message[SENDER_ID] as! String
+                    chatModel.receiverId = message[RECEIVER_ID] as! String
+                    chatModel.message = message[MESSAGE] as! String
+                    chatModel.time = message[MESSAGE_TIME] as? Timestamp
+                    chatModel.type = message[MESSAGE_TYPE] as! String
+                    chatModel.uri = message[MESSAGE_URI] as? String
+                    chatModel.messageStatus = message[MESSAGE_STATUS] as! String
                     messages.append(chatModel)
                 }
                  
@@ -32,7 +39,7 @@ class FirebaseRepository {
 
     func sendMessage(chatModel: ChatModel, roomId: String) {
         chatModel.messageStatus = ChatModel.MessageStatus.NOT_SENT.rawValue
-        firestore.collection(ChatMessagesKey).document(roomId).updateData([ChatMessagesKey: FieldValue.arrayUnion([chatModel])]) { (error) in
+        firestore.collection(ChatMessagesKey).document(REPLACEMENT_CHAT).collection(roomId).document().setData(chatModel.getHashable()) { (error) in
             if (error != nil) {
                 let messages = [chatModel]
                 let docData = [ChatMessagesKey: messages]
@@ -42,7 +49,9 @@ class FirebaseRepository {
     }
 
     func updateSeenStatus(chatList: [ChatModel], roomId: String) {
-        firestore.collection(ChatMessagesKey).document(roomId).updateData([ChatMessagesKey: chatList])
+        for chatModel in chatList {
+            firestore.collection(ChatMessagesKey).document(REPLACEMENT_CHAT).collection(roomId).document(chatModel.messageId).updateData([MESSAGE_STATUS: chatModel.messageStatus])
+        }
     }
 
     func saveImage(id: String, image: UIImage, onProgress: @escaping (Double) -> Void, onFinish: @escaping (String?, String?) -> Void) {

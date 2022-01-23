@@ -32,6 +32,7 @@ class ChatModel: NSObject, Codable, NSCoding {
         self.init(senderId: senderId, receiverId: receiverId, message: message, time: time, type: type, progress: progress, uri: uri, messageStatus: messageStatus)
     }
     
+    var messageId: String = ""
     var senderId: String = ""
     var receiverId: String = ""
     var message: String = ""
@@ -52,15 +53,8 @@ class ChatModel: NSObject, Codable, NSCoding {
         self.messageStatus = messageStatus
     }
     
-    init(dictionary: Dictionary<String, Any>) {
-        self.senderId = dictionary["senderId"] as! String
-        self.receiverId = dictionary["receiverId"] as! String
-        self.message = dictionary["message"] as! String
-        self.time = dictionary["time"] as? Timestamp
-        self.type = dictionary["type"] as! String
-        self.progress = dictionary["progress"] as! Double
-        self.uri = dictionary["uri"] as? String
-        self.messageStatus = dictionary["messageStatus"] as! String
+    override init() {
+        
     }
     
     private enum CodingKeys : String, CodingKey {
@@ -72,6 +66,6 @@ class ChatModel: NSObject, Codable, NSCoding {
     }
     
     func getHashable() -> [String: Any] {
-        return ["senderId": senderId, "receiverId": receiverId, "message": message, "time": time!, "type": type, "progress": progress, "uri": uri, "messageStatus": messageStatus]
+        return [SENDER_ID: senderId, RECEIVER_ID: receiverId, MESSAGE: message, MESSAGE_TIME: time!, MESSAGE_TYPE: type, MESSAGE_URI: uri, MESSAGE_STATUS: messageStatus]
     }
 }
