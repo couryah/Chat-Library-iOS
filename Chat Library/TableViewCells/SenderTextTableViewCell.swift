@@ -7,21 +7,12 @@
 
 import UIKit
 
-class SenderTextTableViewCell: UITableViewCell {
+class SenderTextTableViewCell: TextTableViewCell {
 
-    
-    @IBOutlet var messageLabel: UILabel!
-    @IBOutlet var timeLabel: UILabel!
     @IBOutlet var tickImageView: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     static func getIdentifier() -> String {

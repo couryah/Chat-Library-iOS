@@ -8,3 +8,5 @@
 import Foundation
 
 let ChatMessagesKey = "ChatMessages"
+
+let LibraryBundle = Bundle(identifier: "couryah.Chat-Library")

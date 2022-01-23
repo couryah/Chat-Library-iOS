@@ -5,8 +5,7 @@
 //  Created by Omar on 1/5/22.
 //
 
-import Foundation
-import Firebase
+import FirebaseFirestore
 
 class ChatModel: NSObject, Codable, NSCoding {
     
@@ -14,7 +13,7 @@ class ChatModel: NSObject, Codable, NSCoding {
         coder.encode(senderId, forKey: "senderId")
         coder.encode(receiverId, forKey: "receiverId")
         coder.encode(message, forKey: "message")
-        coder.encode(time, forKey: "time")
+        coder.encode(time?.dateValue, forKey: "time")
         coder.encode(type, forKey: "type")
         coder.encode(progress, forKey: "progress")
         coder.encode(uri, forKey: "uri")
@@ -25,7 +24,7 @@ class ChatModel: NSObject, Codable, NSCoding {
         let senderId = coder.decodeObject(forKey: "senderId") as! String
         let receiverId = coder.decodeObject(forKey: "receiverId") as! String
         let message = coder.decodeObject(forKey: "message") as! String
-        let time = coder.decodeObject(forKey: "time") as! String
+        let time = Timestamp(date: coder.decodeObject(forKey: "time") as! Date)
         let type = coder.decodeObject(forKey: "type") as! String
         let progress = coder.decodeDouble(forKey: "progress")
         let uri = coder.decodeObject(forKey: "uri") as! String
@@ -36,13 +35,13 @@ class ChatModel: NSObject, Codable, NSCoding {
     var senderId: String = ""
     var receiverId: String = ""
     var message: String = ""
-    var time: String = ""
+    var time: Timestamp? = nil
     var type: String = ""
     var progress: Double = 0.0
-    var uri: String = ""
+    var uri: String? = nil
     var messageStatus: String = ""
     
-    init(senderId : String, receiverId: String, message: String, time: String, type: String, progress: Double = 0.0, uri: String, messageStatus: String) {
+    init(senderId : String, receiverId: String, message: String, time: Timestamp, type: String, progress: Double = 0.0, uri: String, messageStatus: String) {
         self.senderId = senderId
         self.receiverId = receiverId
         self.message = message
@@ -51,6 +50,17 @@ class ChatModel: NSObject, Codable, NSCoding {
         self.progress = progress
         self.uri = uri
         self.messageStatus = messageStatus
+    }
+    
+    init(dictionary: Dictionary<String, Any>) {
+        self.senderId = dictionary["senderId"] as! String
+        self.receiverId = dictionary["receiverId"] as! String
+        self.message = dictionary["message"] as! String
+        self.time = dictionary["time"] as? Timestamp
+        self.type = dictionary["type"] as! String
+        self.progress = dictionary["progress"] as! Double
+        self.uri = dictionary["uri"] as? String
+        self.messageStatus = dictionary["messageStatus"] as! String
     }
     
     private enum CodingKeys : String, CodingKey {
@@ -62,6 +72,6 @@ class ChatModel: NSObject, Codable, NSCoding {
     }
     
     func getHashable() -> [String: Any] {
-        return ["senderId": senderId, "receiverId": receiverId, "message": message, "time": time, "type": type, "progress": progress, "uri": uri, "messageStatus": messageStatus]
+        return ["senderId": senderId, "receiverId": receiverId, "message": message, "time": time!, "type": type, "progress": progress, "uri": uri, "messageStatus": messageStatus]
     }
 }
