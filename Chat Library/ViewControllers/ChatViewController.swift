@@ -146,6 +146,19 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         dateFormatter.dateFormat = "h:mm a"
         cell.timeLabel.text = dateFormatter.string(from: (message.time?.dateValue())!)
         
+        if (reusableIdentifier == SenderTextTableViewCell.getIdentifier()) {
+            let castedCell = cell as! SenderTextTableViewCell
+            if (message.hasBeenSeen()) {
+                castedCell.tickImageView.isHidden = false
+                castedCell.tickImageView.image = UIImage(named: "done_all_black_18pt", in: LibraryBundle, with: nil)
+            } else if (!message.hasBeenSent()) {
+                castedCell.tickImageView.isHidden = true
+            } else {
+                castedCell.tickImageView.isHidden = false
+                castedCell.tickImageView.image = UIImage(named: "done_black_18pt", in: LibraryBundle, with: nil)
+            }
+        }
+        
         return cell
     }
     

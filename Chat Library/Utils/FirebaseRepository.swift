@@ -38,7 +38,7 @@ class FirebaseRepository {
     }
 
     func sendMessage(chatModel: ChatModel, roomId: String) {
-        chatModel.messageStatus = ChatModel.MessageStatus.NOT_SENT.rawValue
+        chatModel.messageStatus = ChatModel.MessageStatus.SENT.rawValue
         firestore.collection(ChatMessagesKey).document(REPLACEMENT_CHAT).collection(roomId).document().setData(chatModel.getHashable()) { (error) in
             if (error != nil) {
                 let messages = [chatModel]

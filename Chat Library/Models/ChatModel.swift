@@ -69,7 +69,7 @@ class ChatModel: NSObject, Codable, NSCoding {
         case TEXT = "TEXT", IMAGE = "IMAGE"
     }
     
-    func getHashable() -> [String: Any] {
+    func getHashable() -> [String: Any?] {
         return [SENDER_ID: senderId, RECEIVER_ID: receiverId, MESSAGE: message, MESSAGE_TIME: time!, MESSAGE_TYPE: type, MESSAGE_URI: uri, MESSAGE_STATUS: messageStatus]
     }
     
