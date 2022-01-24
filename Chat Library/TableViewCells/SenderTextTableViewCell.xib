@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wtG-KG-6jJ">
                         <rect key="frame" x="8" y="8" width="304" height="37"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="polygon" translatesAutoresizingMaskIntoConstraints="NO" id="TdK-jS-QBb">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="polygon_right" translatesAutoresizingMaskIntoConstraints="NO" id="TdK-jS-QBb">
                                 <rect key="frame" x="280" y="8.5" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="UAJ-QP-Bxk"/>
@@ -53,7 +52,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="TdK-jS-QBb" firstAttribute="leading" secondItem="A1g-Qe-1nc" secondAttribute="trailing" constant="-12" id="0M9-W7-zhX"/>
                             <constraint firstItem="TdK-jS-QBb" firstAttribute="centerY" secondItem="A1g-Qe-1nc" secondAttribute="centerY" id="VCV-83-bRM"/>
@@ -77,6 +76,7 @@
                         </constraints>
                     </imageView>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="KlF-VB-dVM" secondAttribute="trailing" constant="8" id="2rk-rv-d3k"/>
                     <constraint firstAttribute="bottom" secondItem="KlF-VB-dVM" secondAttribute="bottom" id="Bdb-Ll-YLe"/>
@@ -91,6 +91,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="messageLabel" destination="oqJ-h6-5Ly" id="Zrc-p7-Lgj"/>
                 <outlet property="tickImageView" destination="KlF-VB-dVM" id="6iu-a2-800"/>
@@ -101,9 +102,6 @@
     </objects>
     <resources>
         <image name="done_black_18pt" width="18" height="18"/>
-        <image name="polygon" width="16.5" height="24.5"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="polygon_right" width="16.5" height="24.5"/>
     </resources>
 </document>
