@@ -78,9 +78,23 @@ public class ChatViewController: UIViewController {
             } else {
                 self.chatMessages = chatList!
                 self.messagesTableView.reloadData()
+                setMessagesAsSeen()
                 self.scrollToBottom()
             }
         }
+    }
+    
+    fileprivate func setMessagesAsSeen() {
+        var messagesToUpdate = [ChatModel]()
+        for chatMessage in chatMessages {
+            let senderId = user1!.isSender ? user1?.id : user2?.id
+            if (chatMessage.senderId != senderId && !chatMessage.hasBeenSeen()) {
+                chatMessage.messageStatus = ChatModel.MessageStatus.RECEIVED.rawValue
+                messagesToUpdate.append(chatMessage)
+            }
+        }
+        
+        FirebaseRepository().updateSeenStatus(chatList: messagesToUpdate, roomId: orderId!)
     }
     
     @IBAction func onSendButtonClicked(_ sender: Any) {

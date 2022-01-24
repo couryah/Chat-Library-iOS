@@ -72,4 +72,12 @@ class ChatModel: NSObject, Codable, NSCoding {
     func getHashable() -> [String: Any] {
         return [SENDER_ID: senderId, RECEIVER_ID: receiverId, MESSAGE: message, MESSAGE_TIME: time!, MESSAGE_TYPE: type, MESSAGE_URI: uri, MESSAGE_STATUS: messageStatus]
     }
+    
+    func hasBeenSeen() -> Bool {
+        return messageStatus == MessageStatus.RECEIVED.rawValue
+    }
+    
+    func hasBeenSent() -> Bool {
+        return messageStatus == MessageStatus.SENT.rawValue
+    }
 }
