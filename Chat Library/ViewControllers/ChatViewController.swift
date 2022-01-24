@@ -78,7 +78,7 @@ public class ChatViewController: UIViewController {
             } else {
                 self.chatMessages = chatList!
                 self.messagesTableView.reloadData()
-                setMessagesAsSeen()
+                self.setMessagesAsSeen()
                 self.scrollToBottom()
             }
         }
