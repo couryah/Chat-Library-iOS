@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 public class ChatViewController: UIViewController {
     @IBOutlet var sendButton: UIButton!
@@ -46,9 +47,9 @@ public class ChatViewController: UIViewController {
          let animationCurve:UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
 
          if endFrameY >= UIScreen.main.bounds.size.height {
-           self.bottomConstraint?.constant = 0.0
+           self.bottomConstraint?.constant = 8.0
          } else {
-           self.bottomConstraint?.constant = endFrame?.size.height ?? 0.0
+             self.bottomConstraint?.constant = endFrame?.size.height ?? 0.0 + 8.0
          }
 
          UIView.animate(
@@ -77,8 +78,41 @@ public class ChatViewController: UIViewController {
             } else {
                 self.chatMessages = chatList!
                 self.messagesTableView.reloadData()
+                self.scrollToBottom()
             }
         }
+    }
+    
+    @IBAction func onSendButtonClicked(_ sender: Any) {
+        if (!messageTextField.text!.isEmpty) {
+            let chatMessage = createMessage(text: messageTextField.text!, messageType: ChatModel.MessageType.TEXT.rawValue, imageUri: nil)
+            
+            chatMessages.append(chatMessage)
+            messagesTableView.reloadData()
+            scrollToBottom()
+            FirebaseRepository().sendMessage(chatModel: chatMessage, roomId: orderId!)
+            messageTextField.text = ""
+        }
+    }
+    
+    fileprivate func scrollToBottom() {
+        DispatchQueue.main.async {
+            let indexPath = IndexPath(row: self.chatMessages.count-1, section: 0)
+            self.messagesTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    fileprivate func createMessage(text: String, messageType: String, imageUri: String?) -> ChatModel {
+        var senderId = ""
+        var receiverId = ""
+        if (user2!.isSender) {
+            senderId = user2!.id
+            receiverId = user1!.id
+        } else {
+            senderId = user1!.id
+            receiverId = user2!.id
+        }
+        return ChatModel(senderId: senderId, receiverId: receiverId, message: text, time: Timestamp(), type: messageType, uri: imageUri, messageStatus: ChatModel.MessageStatus.NOT_SENT.rawValue)
     }
 }
 

@@ -14,7 +14,7 @@ class FirebaseRepository {
     private let storage = Storage.storage().reference()
 
     func getMessages(roomId: String, onFinish: @escaping ([ChatModel]?, String?) -> Void) {
-        firestore.collection(ChatMessagesKey).document(REPLACEMENT_CHAT).collection(roomId).addSnapshotListener { (snapShot, error) in
+        firestore.collection(ChatMessagesKey).document(REPLACEMENT_CHAT).collection(roomId).order(by: MESSAGE_TIME, descending: false).addSnapshotListener { (snapShot, error) in
             if (snapShot != nil) {
                 var messages = [ChatModel]()
                 for message in snapShot!.documents {

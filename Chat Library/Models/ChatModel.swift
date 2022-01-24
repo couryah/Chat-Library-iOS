@@ -42,7 +42,7 @@ class ChatModel: NSObject, Codable, NSCoding {
     var uri: String? = nil
     var messageStatus: String = ""
     
-    init(senderId : String, receiverId: String, message: String, time: Timestamp, type: String, progress: Double = 0.0, uri: String, messageStatus: String) {
+    init(senderId : String, receiverId: String, message: String, time: Timestamp, type: String, progress: Double = 0.0, uri: String?, messageStatus: String) {
         self.senderId = senderId
         self.receiverId = receiverId
         self.message = message
@@ -63,6 +63,10 @@ class ChatModel: NSObject, Codable, NSCoding {
     
     enum MessageStatus : String {
         case NOT_SENT = "NOT_SENT", SENT = "SENT", RECEIVED = "RECEIVED"
+    }
+    
+    enum MessageType: String {
+        case TEXT = "TEXT", IMAGE = "IMAGE"
     }
     
     func getHashable() -> [String: Any] {
