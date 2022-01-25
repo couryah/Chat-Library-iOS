@@ -72,6 +72,8 @@ public class ChatViewController: UIViewController {
         messagesTableView.register(UINib(nibName: "ReceiverTextTableViewCell", bundle: LibraryBundle), forCellReuseIdentifier: ReceiverTextTableViewCell.getIdentifier())
         
         messagesTableView.register(UINib(nibName: "SenderImageTableViewCell", bundle: LibraryBundle), forCellReuseIdentifier: SenderImageTableViewCell.getIdentifier())
+        
+        messagesTableView.register(UINib(nibName: "ReceiverImageTableViewCell", bundle: LibraryBundle), forCellReuseIdentifier: ReceiverImageTableViewCell.getIdentifier())
     }
     
     fileprivate func loadMessages() {
@@ -165,7 +167,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         } else {
-            let reusableIdentifier = SenderImageTableViewCell.getIdentifier() //message.senderId == senderId ? SenderImageTableViewCell.getIdentifier() : ReceiverTextTableViewCell.getIdentifier()
+            let reusableIdentifier = message.senderId == senderId ? SenderImageTableViewCell.getIdentifier() : ReceiverImageTableViewCell.getIdentifier()
             let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier) as! ImageTableViewCell
             cell.messageImageView?.kf.setImage(with: URL(string: message.message), placeholder: nil, options: [
                 .loadDiskFileSynchronously,
