@@ -11,5 +11,6 @@ target 'Chat Library' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
   pod 'FirebaseFirestoreSwift'
+  pod 'Kingfisher', '~> 7.0'
 
 end

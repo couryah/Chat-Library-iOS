@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseFirestore
+import Kingfisher
 
 public class ChatViewController: UIViewController {
     @IBOutlet var sendButton: UIButton!
@@ -69,6 +70,8 @@ public class ChatViewController: UIViewController {
         messagesTableView.register(UINib(nibName: "SenderTextTableViewCell", bundle: LibraryBundle), forCellReuseIdentifier: SenderTextTableViewCell.getIdentifier())
         
         messagesTableView.register(UINib(nibName: "ReceiverTextTableViewCell", bundle: LibraryBundle), forCellReuseIdentifier: ReceiverTextTableViewCell.getIdentifier())
+        
+        messagesTableView.register(UINib(nibName: "SenderImageTableViewCell", bundle: LibraryBundle), forCellReuseIdentifier: SenderImageTableViewCell.getIdentifier())
     }
     
     fileprivate func loadMessages() {
@@ -139,27 +142,55 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         let message = chatMessages[indexPath.row]
         let senderId = user1!.isSender ? user1?.id : user2?.id
         
-        let reusableIdentifier = message.senderId == senderId ? SenderTextTableViewCell.getIdentifier() : ReceiverTextTableViewCell.getIdentifier()
-        let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier) as! TextTableViewCell
-        cell.messageLabel.text = message.message
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm a"
-        cell.timeLabel.text = dateFormatter.string(from: (message.time?.dateValue())!)
-        
-        if (reusableIdentifier == SenderTextTableViewCell.getIdentifier()) {
-            let castedCell = cell as! SenderTextTableViewCell
-            if (message.hasBeenSeen()) {
-                castedCell.tickImageView.isHidden = false
-                castedCell.tickImageView.image = UIImage(named: "done_all_black_18pt", in: LibraryBundle, with: nil)
-            } else if (!message.hasBeenSent()) {
-                castedCell.tickImageView.isHidden = true
-            } else {
-                castedCell.tickImageView.isHidden = false
-                castedCell.tickImageView.image = UIImage(named: "done_black_18pt", in: LibraryBundle, with: nil)
+        if (message.type == ChatModel.MessageType.TEXT.rawValue) {
+            let reusableIdentifier = message.senderId == senderId ? SenderTextTableViewCell.getIdentifier() : ReceiverTextTableViewCell.getIdentifier()
+            let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier) as! TextTableViewCell
+            cell.messageLabel.text = message.message
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "h:mm a"
+            cell.timeLabel.text = dateFormatter.string(from: (message.time?.dateValue())!)
+            
+            if (reusableIdentifier == SenderTextTableViewCell.getIdentifier()) {
+                let castedCell = cell as! SenderTextTableViewCell
+                if (message.hasBeenSeen()) {
+                    castedCell.tickImageView.isHidden = false
+                    castedCell.tickImageView.image = UIImage(named: "done_all_black_18pt", in: LibraryBundle, with: nil)
+                } else if (!message.hasBeenSent()) {
+                    castedCell.tickImageView.isHidden = true
+                } else {
+                    castedCell.tickImageView.isHidden = false
+                    castedCell.tickImageView.image = UIImage(named: "done_black_18pt", in: LibraryBundle, with: nil)
+                }
             }
+            
+            return cell
+        } else {
+            let reusableIdentifier = SenderImageTableViewCell.getIdentifier() //message.senderId == senderId ? SenderImageTableViewCell.getIdentifier() : ReceiverTextTableViewCell.getIdentifier()
+            let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier) as! ImageTableViewCell
+            cell.messageImageView?.kf.setImage(with: URL(string: message.message), placeholder: nil, options: [
+                .loadDiskFileSynchronously,
+                .cacheOriginalImage,
+                .transition(.fade(0.25))
+            ], completionHandler: nil)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "h:mm a"
+            cell.timeLabel.text = dateFormatter.string(from: (message.time?.dateValue())!)
+            
+            if (reusableIdentifier == SenderImageTableViewCell.getIdentifier()) {
+                let castedCell = cell as! SenderImageTableViewCell
+                if (message.hasBeenSeen()) {
+                    castedCell.tickImageView.isHidden = false
+                    castedCell.tickImageView.image = UIImage(named: "done_all_black_18pt", in: LibraryBundle, with: nil)
+                } else if (!message.hasBeenSent()) {
+                    castedCell.tickImageView.isHidden = true
+                } else {
+                    castedCell.tickImageView.isHidden = false
+                    castedCell.tickImageView.image = UIImage(named: "done_black_18pt", in: LibraryBundle, with: nil)
+                }
+            }
+            
+            return cell
         }
-        
-        return cell
     }
     
     public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
