@@ -227,6 +227,13 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
                 .cacheOriginalImage,
                 .transition(.fade(0.25))
             ], completionHandler: nil)
+            
+            cell.onImageClicked = {
+                let imageViewController = ImageViewController(nibName: "ImageViewController", bundle: LibraryBundle)
+                imageViewController.image = cell.messageImageView.image
+                self.present(imageViewController, animated: true)
+            }
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "h:mm a"
             cell.timeLabel.text = dateFormatter.string(from: (message.time?.dateValue())!)
