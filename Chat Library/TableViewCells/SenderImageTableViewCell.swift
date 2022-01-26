@@ -10,6 +10,7 @@ import UIKit
 class SenderImageTableViewCell: ImageTableViewCell {
 
     @IBOutlet weak var tickImageView: UIImageView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

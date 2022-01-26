@@ -39,20 +39,26 @@
                             <constraint firstAttribute="width" constant="18" id="zya-lM-1mu"/>
                         </constraints>
                     </imageView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="HVM-rv-DGh">
+                        <rect key="frame" x="230" y="62" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="fLD-PP-O0e" secondAttribute="trailing" constant="12" id="37s-Gu-mFR"/>
                     <constraint firstAttribute="bottom" secondItem="fLD-PP-O0e" secondAttribute="bottom" constant="3" id="T1O-5Y-sdv"/>
                     <constraint firstAttribute="trailing" secondItem="4Xi-LB-RUf" secondAttribute="trailing" constant="16" id="UbS-bm-hbR"/>
+                    <constraint firstItem="HVM-rv-DGh" firstAttribute="centerX" secondItem="4Xi-LB-RUf" secondAttribute="centerX" id="ZGz-wZ-QKR"/>
                     <constraint firstAttribute="bottom" secondItem="YqP-u3-gtS" secondAttribute="bottom" constant="7" id="cQe-S4-7UF"/>
                     <constraint firstItem="fLD-PP-O0e" firstAttribute="leading" secondItem="YqP-u3-gtS" secondAttribute="trailing" constant="4" id="cyD-Qs-VeP"/>
                     <constraint firstItem="YqP-u3-gtS" firstAttribute="top" secondItem="4Xi-LB-RUf" secondAttribute="bottom" constant="13" id="mmm-qD-USv"/>
+                    <constraint firstItem="HVM-rv-DGh" firstAttribute="centerY" secondItem="4Xi-LB-RUf" secondAttribute="centerY" id="sop-Z2-tfy"/>
                     <constraint firstItem="4Xi-LB-RUf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="zCy-Jn-JvY"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="loadingIndicator" destination="HVM-rv-DGh" id="r6z-uS-ETU"/>
                 <outlet property="messageImageView" destination="4Xi-LB-RUf" id="JJD-0F-LoE"/>
                 <outlet property="tickImageView" destination="fLD-PP-O0e" id="RoK-hP-4UH"/>
                 <outlet property="timeLabel" destination="YqP-u3-gtS" id="79G-0I-Zgo"/>

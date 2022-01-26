@@ -23,6 +23,8 @@ public class ChatViewController: UIViewController {
     public var orderId: String?
     fileprivate var chatMessages = [ChatModel]()
     
+    var imagePicker = UIImagePickerController()
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -114,6 +116,10 @@ public class ChatViewController: UIViewController {
         }
     }
     
+    @IBAction func onImageButtonClicked(_ sender: Any) {
+        showImageSelection()
+    }
+    
     fileprivate func scrollToBottom() {
         DispatchQueue.main.async {
             let indexPath = IndexPath(row: self.chatMessages.count-1, section: 0)
@@ -132,6 +138,52 @@ public class ChatViewController: UIViewController {
             receiverId = user2!.id
         }
         return ChatModel(senderId: senderId, receiverId: receiverId, message: text, time: Timestamp(), type: messageType, uri: imageUri, messageStatus: ChatModel.MessageStatus.NOT_SENT.rawValue)
+    }
+    
+    fileprivate func showImageSelection() {
+        // Create the AlertController
+        let actionSheetController = UIAlertController(title: "", message: "Choose image source", preferredStyle: .actionSheet)
+
+        // Create and add the Cancel action
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
+            // Just dismiss the action sheet
+        }
+        actionSheetController.addAction(cancelAction)
+
+        // Create and add first option action
+        let takePictureAction = UIAlertAction(title: "Camera", style: .default) { action -> Void in
+            self.openCamera()
+        }
+        actionSheetController.addAction(takePictureAction)
+
+        // Create and add a second option action
+        let choosePictureAction = UIAlertAction(title: "Gallery", style: .default) { action -> Void in
+            self.openGallery()
+        }
+        actionSheetController.addAction(choosePictureAction)
+
+        // We need to provide a popover sourceView when using it on iPad
+        actionSheetController.popoverPresentationController?.sourceView = imageButton
+
+        // Present the AlertController
+        self.present(actionSheetController, animated: true, completion: nil)
+    }
+    
+    fileprivate func openGallery() {
+        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .savedPhotosAlbum
+            imagePicker.allowsEditing = false
+            present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    fileprivate func openCamera() {
+        if(UIImagePickerController .isSourceTypeAvailable(.camera)) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            present(imagePicker, animated: true, completion: nil)
+        }
     }
 }
 
@@ -169,6 +221,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             let reusableIdentifier = message.senderId == senderId ? SenderImageTableViewCell.getIdentifier() : ReceiverImageTableViewCell.getIdentifier()
             let cell = tableView.dequeueReusableCell(withIdentifier: reusableIdentifier) as! ImageTableViewCell
+//            let imageSource = message.uri != nil ? message.uri : message.message
             cell.messageImageView?.kf.setImage(with: URL(string: message.message), placeholder: nil, options: [
                 .loadDiskFileSynchronously,
                 .cacheOriginalImage,
@@ -180,6 +233,7 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
             
             if (reusableIdentifier == SenderImageTableViewCell.getIdentifier()) {
                 let castedCell = cell as! SenderImageTableViewCell
+                castedCell.loadingIndicator.isHidden = !(message.progress < 100)
                 if (message.hasBeenSeen()) {
                     castedCell.tickImageView.isHidden = false
                     castedCell.tickImageView.image = UIImage(named: "done_all_black_18pt", in: LibraryBundle, with: nil)
@@ -201,5 +255,29 @@ extension ChatViewController: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+}
+
+extension ChatViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        self.dismiss(animated: true, completion: { () -> Void in
+            let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+            let chatMessage = self.createMessage(text: "", messageType: ChatModel.MessageType.IMAGE.rawValue, imageUri: "")
+            
+            self.chatMessages.append(chatMessage)
+            self.messagesTableView.reloadData()
+            self.scrollToBottom()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "DDD MMM dd hh:mm:ss zzz"
+            FirebaseRepository().saveImage(id: dateFormatter.string(from: Date()), image: image!) { progress in
+                chatMessage.progress = progress
+                self.messagesTableView.reloadData()
+            } onFinish: { url, error in
+                chatMessage.message = url!
+                FirebaseRepository().sendMessage(chatModel: chatMessage, roomId: self.orderId!)
+            }
+        })
     }
 }

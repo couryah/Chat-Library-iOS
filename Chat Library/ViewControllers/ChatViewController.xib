@@ -39,6 +39,9 @@
                             </constraints>
                             <color key="tintColor" red="0.95294117647058818" green="0.42745098039215684" blue="0.16470588235294117" alpha="1" colorSpace="calibratedRGB"/>
                             <state key="normal" image="image_black_24pt"/>
+                            <connections>
+                                <action selector="onImageButtonClicked:" destination="-1" eventType="touchUpInside" id="x0p-Td-dby"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ir-gl-nOu">
                             <rect key="frame" x="352" y="0.0" width="46" height="46"/>
